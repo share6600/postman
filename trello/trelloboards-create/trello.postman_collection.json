@@ -6,13 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "https://api.trello.com/1/boards/?name=sharifo&defaultLabels=true&defaultLists=false&keepFromSource=none&prefs_permissionLevel=private&prefs_voting=disabled&prefs_comments=members&prefs_invitations=members&prefs_selfJoin=true&prefs_cardCovers=true&prefs_background=blue&prefs_cardAging=regular&key=99e461083c50593be403a0ec320b8b35&token=a5c84aa4b9ba433345f4142a4fb687b6a385ccb0f7e02df93dad8e1a7aaef338\n",
+			"name": "https://api.trello.com/1/boards/?name=sharifo&defaultLabels=true&defaultLists=false&keepFromSource=none&prefs_permissionLevel=private&prefs_voting=disabled&prefs_comments=members&prefs_invitations=members&prefs_selfJoin=true&prefs_cardCovers=true&prefs_background=blue&prefs_cardAging=regular&key={{trelloKey}}&token={{trelloToken}}",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "43d054c3-7081-4c63-936c-ffc893d8e09c",
-						"type": "text/javascript",
+						"id": "7220d74e-e18f-4b25-8bdf-0194d90101d4",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -24,27 +23,48 @@
 							"",
 							"",
 							"pm.test(\"bourd should be created\", function () {",
-							"    pm.expect(response.name).to.eql(\"sharifo\");",
+							"    pm.expect(response.name).to.eql(pm.environment.get(\"boardname\"));",
 							"        pm.expect(response.closed).to.eql(false);",
 							"",
 							"});",
 							"",
 							"",
 							"",
-							"pm.test(\"Your test name\", function () {",
-							"    pm.expect(response.prefs.permissionLevel).to.eql(\"private\");",
-							"});",
-							"console.log(response)"
-						]
+							"",
+							"",
+							"console.log(response)",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8a375514-1dc4-4492-876d-b8245084798f",
+						"exec": [
+							"pm.environment.set(\"boardname\", \"myboard\"+parseInt(Math.random()*1000));"
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
 				"method": "POST",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
 				"url": {
-					"raw": "https://api.trello.com/1/boards/?name=sharifo&defaultLabels=true&defaultLists=false&keepFromSource=none&prefs_permissionLevel=private&prefs_voting=disabled&prefs_comments=members&prefs_invitations=members&prefs_selfJoin=true&prefs_cardCovers=true&prefs_background=blue&prefs_cardAging=regular&key={{trelloKey}}&token={{trelloToken}}",
+					"raw": "https://api.trello.com/1/boards/?name={{boardname}}&defaultLabels=true&defaultLists=false&keepFromSource=none&prefs_permissionLevel=private&prefs_voting=disabled&prefs_comments=members&prefs_invitations=members&prefs_selfJoin=true&prefs_cardCovers=true&prefs_background=blue&prefs_cardAging=regular&key={{trelloKey}}&token={{trelloToken}}",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -59,7 +79,7 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "sharifo"
+							"value": "{{boardname}}"
 						},
 						{
 							"key": "defaultLabels",
