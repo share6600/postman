@@ -4,5 +4,81 @@
 		"name": "trello-lists",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
-	"item": []
+	"item": [
+		{
+			"name": "https://api.trello.com/1/lists?name=TODO&idBoard={{boardId}}&key={{trelloKey}}&token={{trelloToken}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "503e64ac-2b19-4ca3-91ae-d9ff3848f095",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"",
+							"    const response = pm.response.json();",
+							"",
+							"",
+							"pm.test(\"LIST should be created\", function () {",
+							"    pm.expect(response.name).to.eql(\"TODO\");",
+							"        pm.expect(response.closed).to.eql(false);",
+							"",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"list created inside board\", function () {",
+							"    pm.expect(response.idBoard).to.eql(boardId);",
+							"});",
+							"console.log(response);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://api.trello.com/1/lists?name=TODO&idBoard={{boardId}}&key={{trelloKey}}&token={{trelloToken}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "TODO"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{boardId}}"
+						},
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
 }
